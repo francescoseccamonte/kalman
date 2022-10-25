@@ -1,0 +1,105 @@
+name: CI pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  style-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: cpp-linter/cpp-linter-action@v2
+      with:
+        style: 'Google'
+
+  build:
+    needs: style-check  # Run build job only if style-check was successful
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu18.04]
+        compiler: [gcc12, clang14]
+        build_type: [Debug]
+    container:
+      image: conanio/${{ matrix.compiler }}-${{ matrix.os }}
+      options: --user root
+      volumes:
+        - ${{ github.workspace }}:/content
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Configure Conan
+      run: |
+           conan profile update settings.compiler.libcxx=libstdc++11 default
+           conan remote add bincrafters https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
+           conan config set general.revisions_enabled=1
+
+    - name: Install Conan dependencies
+      run: |
+           mkdir /content/build && cd /content/build
+           conan install -o cpp-travis-integration:build_tests=True --build=missing ..
+
+    - name: Configure CMake and build
+      run: |
+           cd /content/build
+           cmake -S .. -B . -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+           cmake --build .
+
+    - name: Run tests
+      run: |
+           cd /content/build
+           ctest --parallel
+           
+    - name: Create Conan package
+      run: |
+           cd /content
+           conan create . francesco/testing
+
+
+  codecov:
+    needs: build
+
+    runs-on: ubuntu-latest
+    container:
+      image: conanio/clang14-ubuntu18.04
+      options: --user root
+      volumes:
+        - ${{ github.workspace }}:/content
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install lcov and gcovr
+      run: |
+           apt-get update && apt-get -y install lcov
+           pip install gcovr
+    
+    - name: Configure Conan
+      run: |
+           conan profile update settings.compiler.libcxx=libstdc++11 default
+           conan remote add bincrafters https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
+           conan config set general.revisions_enabled=1
+
+    - name: Install Conan dependencies
+      run: |
+           mkdir /content/build-cov && cd /content/build-cov
+           conan install -o cpp-travis-integration:build_tests=True --build=missing ..
+
+    - name: Configure CMake and build
+      run: |
+           cd /content/build-cov
+           cmake -S .. -B . -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
+           cmake --build .
+
+    - name: Run tests and generate coverage report
+      run: |
+           cd /content/build-cov
+           cmake --build . --target coverage
+
+    - uses: codecov/codecov-action@v3
+      with:
+        files: ${{ github.workspace }}/build-cov/coverage.xml
