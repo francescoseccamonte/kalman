@@ -1,16 +1,17 @@
 from conans import ConanFile, CMake, tools
 import os, subprocess, stat
 
-class CppTravisIntegrationConan(ConanFile):
-    name = "cpp-travis-integration"
+class Kalman(ConanFile):
+    name = "kalman"
     version = "0.1"
-    url = "https://github.com/francescoseccamonte/cpp-travis-integration"
-    description = "C++ Travis integration"
+    url = "https://github.com/francescoseccamonte/kalman"
+    description = "Kalman filter in C++."
     license = "Apache 2.0"
     settings = "os", "compiler", "build_type", "arch"
     exports_sources = "CMakeLists.txt", "cmake/*", "src/*"
     no_copy_source = True
     generators = "cmake", "virtualenv"
+    requires = ("eigen/3.4.0")
     options = {
         "shared": [True, False],
         "build_tests": [True, False],

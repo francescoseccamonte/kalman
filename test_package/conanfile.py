@@ -1,7 +1,7 @@
 from conans import ConanFile, CMake
 import os
 
-class ProjectTest(ConanFile):
+class KalmanPackageTest(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
 

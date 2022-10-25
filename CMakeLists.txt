@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
-project(cpp-travis-integration LANGUAGES CXX)
+project(kalman LANGUAGES CXX)
 
 # Project wide C++ standard
 set(CMAKE_CXX_STANDARD 17)

@@ -1,8 +1,8 @@
 # Project template
 
-[![Github Actions](https://github.com/francescoseccamonte/cpp-travis-integration/actions/workflows/build.yml/badge.svg)](https://github.com/francescoseccamonte/cpp-travis-integration/actions/workflows/build.yml) [![Travis CI](https://travis-ci.org/francescoseccamonte/cpp-travis-integration.svg?branch=master)](https://travis-ci.org/francescoseccamonte/cpp-travis-integration) [![codecov](https://codecov.io/gh/francescoseccamonte/cpp-travis-integration/branch/main/graph/badge.svg?token=ayRENb8Avd)](https://codecov.io/gh/francescoseccamonte/cpp-travis-integration) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Github Actions](https://github.com/francescoseccamonte/kalman/actions/workflows/build.yml/badge.svg)](https://github.com/francescoseccamonte/kalman/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/francescoseccamonte/kalman/branch/main/graph/badge.svg?token=ayRENb8Avd)](https://codecov.io/gh/francescoseccamonte/kalman) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-C++ project template, using CMake and [Conan](https://conan.io).
+Linear and Extended Kalman filter, written in C++ using Eigen.
 
 ## Prerequisites
 
@@ -44,7 +44,7 @@ mkdir build && cd build
 The first step is installing dependencies via conan:
 
 ```
-conan install -o cpp-travis-integration:build_tests=True --build=missing <sources>
+conan install -o kalman:build_tests=True --build=missing <sources>
 ```
 The `-o` specifies option to be passed to conan, and `--build-missing` is self-explanatory.
 
