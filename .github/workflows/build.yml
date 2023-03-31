@@ -41,7 +41,7 @@ jobs:
     - name: Install Conan dependencies
       run: |
            mkdir /content/build && cd /content/build
-           conan install -o cpp-travis-integration:build_tests=True --build=missing ..
+           conan install -o kalman:build_tests=True --build=missing ..
 
     - name: Configure CMake and build
       run: |
@@ -87,7 +87,7 @@ jobs:
     - name: Install Conan dependencies
       run: |
            mkdir /content/build-cov && cd /content/build-cov
-           conan install -o cpp-travis-integration:build_tests=True --build=missing ..
+           conan install -o kalman:build_tests=True --build=missing ..
 
     - name: Configure CMake and build
       run: |
