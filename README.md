@@ -99,11 +99,11 @@ when the changes made qualify for a major or minor version number increase.
 ### Consuming the project as a Conan pacakge
 
 You can now consume the project as a conan package. If it simply contains libraries, you can include
-it in your `conanfile.txt/py` and use it by linking against the target `CONAN_PKG::project_template`.
+it in your `conanfile.txt/py` and use it by linking against the target `CONAN_PKG::kalman`.
 
 If it contains executables also and you intend to run them, you can obtain and install the package via
 ```
-conan install project_template/<version>@<user>/<channel> -g virtualenv
+conan install kalman/<version>@<user>/<channel> -g virtualenv
 ```
 
 This command will create two scripts, `activate.sh` and `deactivate.sh`. You will then run
