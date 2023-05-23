@@ -8,17 +8,20 @@
 
 int main()
 {
-    const Eigen::Matrix<double, 1, 1> Ad {double(-1.)};
-    const Eigen::Matrix<double, 1, 1> Bd {double(.9)};
-    const Eigen::Matrix<double, 1, 1> Hd {double(1.)};
+    constexpr int n = 1;
+    constexpr int m = 1;
+    constexpr int h = 1;
+    const Eigen::Matrix<double, n, n> Ad {double(-1.)};
+    const Eigen::Matrix<double, n, m> Bd {double(.9)};
+    const Eigen::Matrix<double, h, n> Hd {double(1.)};
 
-    kalman::KF<double> kfd(Ad, Bd, Hd);
+    kalman::KF<double, n, m, h> kfd(Ad, Bd, Hd);
 
-    const Eigen::Matrix<float, 1, 1> Af {double(-1.)};
-    const Eigen::Matrix<float, 1, 1> Bf {double(.9)};
-    const Eigen::Matrix<float, 1, 1> Hf {double(1.)};
+    const Eigen::Matrix<float, n, n> Af {double(-1.)};
+    const Eigen::Matrix<float, n, m> Bf {double(.9)};
+    const Eigen::Matrix<float, h, n> Hf {double(1.)};
 
-    kalman::KF<float> kff(Af, Bf, Hf);
+    kalman::KF<float, n, m, h> kff(Af, Bf, Hf);
 
     return 0;
 }

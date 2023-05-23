@@ -3,6 +3,7 @@
 [![Github Actions](https://github.com/francescoseccamonte/kalman/actions/workflows/build.yml/badge.svg)](https://github.com/francescoseccamonte/kalman/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/francescoseccamonte/kalman/branch/main/graph/badge.svg?token=ayRENb8Avd)](https://codecov.io/gh/francescoseccamonte/kalman) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Kalman filter written in C++ using Eigen.
+The library is header-only, and uses fixed-size Eigen matrices for performance.
 
 Disclaimer: I wrote this project to simply brush up my C++ skills, and review the Kalman filter.
 This means the code is not particularly optimized, and some design choices are suboptimal.
@@ -14,7 +15,7 @@ It is assumed that CMake and a python3 installation are available.
 ### Conan Package Manager
 
 The [Conan](https://conan.io) package manager is used to manage project's external
-dependencies, and is assumed to be installed.
+dependencies, and is assumed to be installed (version >= 1.54, < 2).
 For more details see the Conan [Getting Started](https://docs.conan.io/en/latest/getting_started.html) guide.
 
 ## Compiling

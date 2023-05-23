@@ -48,180 +48,19 @@ TYPED_TEST(KFTest, Constructor) {
     ASSERT_NO_THROW(Filter(this->A_, this->B_, this->H_));
 }
 
-//// Test case for initializing the KF object
-//TYPED_TEST(KFTest, Initialization) {
-//    Eigen::Matrix<TypeParam, 2, 1> x0(1.0, 2.0);
-//    Eigen::Matrix<TypeParam, 2, 2> P0 = Eigen::Matrix<TypeParam, 2, 2>::Identity();
-//    Eigen::Matrix<TypeParam, 2, 2> sigma2v = Eigen::Matrix<TypeParam, 2, 2>::Identity();
-//    Eigen::Matrix<TypeParam, 1, 1> sigma2w(1.0);
-//
-//    this->kf_.initializeKF(x0, P0, sigma2v, sigma2w);
-//
-//    // Assert that the KF object is initialized
-//    EXPECT_TRUE(this->kf_.isInitialized());
-//}
-//
-//// Test case for the prior update computation
-//TYPED_TEST(KFTest, PriorUpdate) {
-//    Eigen::Matrix<TypeParam, 1, 1> u(0.5);
-//
-//    this->kf_.priorUpdate(u);
-//
-//    // Perform assertions on the updated state vector or other outputs as needed
-//    // For example:
-//    // EXPECT_NEAR(this->kf_.getLatestState()(0), expectedValue, tolerance);
-//}
-//
-//// Test case for the measurement update computation
-//TYPED_TEST(KFTest, MeasurementUpdate) {
-//    Eigen::Matrix<TypeParam, 1, 1> z(1.5);
-//
-//    this->kf_.measurementUpdate(z);
-//
-//    // Perform assertions on the updated state vector or other outputs as needed
-//    // For example:
-//    // EXPECT_NEAR(this->kf_.getLatestState()(0), expectedValue, tolerance);
-//}
-//
-//// Test case for getting the latest state
-//TYPED_TEST(KFTest, GetLatestState) {
-//    // Perform assertions on the initial state vector
-//    // For example:
-//    // EXPECT_NEAR(this->kf_.getLatestState()(0), expectedValue, tolerance);
-//}
-//
-//// Test case for getting the covariance
-//TYPED_TEST(KFTest, GetCovariance) {
-//    // Perform assertions on the initial covariance matrix
-//    // For example:
-//    // EXPECT_NEAR(this->kf_.getCovariance()(0, 0), expectedValue, tolerance);
-//}
+// Test case for initializing matrices in the KF object
+TYPED_TEST(KFTest, Initialization) {
+    Eigen::Matrix<TypeParam, KFTestParams::n, 1> x0;
+    x0.setZero();
+    Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n> P0 = Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n>::Identity();
+    Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n> sigma2v = Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n>::Identity();
+    Eigen::Matrix<TypeParam, KFTestParams::h, KFTestParams::h> sigma2w = Eigen::Matrix<TypeParam, KFTestParams::h, KFTestParams::h>::Identity();
 
+    using Filter = KF<TypeParam, KFTestParams::n, KFTestParams::m, KFTestParams::h>;
 
-//template<typename T>
-//class KalmanFilterTests : public ::testing::Test {};
-//
-//using Types = testing::Types<float, double>;
-//TYPED_TEST_SUITE(KalmanFilterTests, Types, );
-//
-//TYPED_TEST(KalmanFilterTests, constructor1D)
-//{
-//    // Test constructor for 1D system, 1D input
-//    const Eigen::Matrix<TypeParam, 1, 1> A {TypeParam(-1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> B {TypeParam(.9)};
-//    const Eigen::Matrix<TypeParam, 1, 1> H {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2v {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    ASSERT_NO_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, constructor2DA)
-//{
-//    // Test constructor for 2D system, 1D input
-//    const Eigen::Matrix<TypeParam, 2, 2> A { {TypeParam(-1.), TypeParam(.1)},
-//                                             {TypeParam(.1), TypeParam(-2.)} };
-//    const Eigen::Matrix<TypeParam, 2, 1> B { {TypeParam(.9)}, {TypeParam(.8)} };
-//    const Eigen::Matrix<TypeParam, 1, 2> H { {TypeParam(1.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 2, 2> sigma2v {{TypeParam(1.), TypeParam(0.)},
-//                                                  {TypeParam(0.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    ASSERT_NO_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, constructor2DB)
-//{
-//    // Test constructor for 2D system, 2D input
-//    const Eigen::Matrix<TypeParam, 2, 2> A { {TypeParam(-1.), TypeParam(.1)},
-//                                             {TypeParam(.1), TypeParam(-2.)} };
-//    const Eigen::Matrix<TypeParam, 2, 2> B { {TypeParam(.9), TypeParam(0.)},
-//                                             {TypeParam(.1), TypeParam(.8)} };
-//    const Eigen::Matrix<TypeParam, 1, 2> H { {TypeParam(1.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 2, 2> sigma2v {{TypeParam(1.), TypeParam(0.)},
-//                                                  {TypeParam(0.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    ASSERT_NO_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, constructorTA)
-//{
-//    // Test constructor throws
-//    const Eigen::Matrix<TypeParam, 1, 2> A { {TypeParam(-1.), TypeParam(.1)} };
-//    const Eigen::Matrix<TypeParam, 2, 2> B { {TypeParam(.9), TypeParam(0.)},
-//                                             {TypeParam(.1), TypeParam(.8)} };
-//    const Eigen::Matrix<TypeParam, 1, 2> H { {TypeParam(1.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2v {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    ASSERT_ANY_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, constructorTB)
-//{
-//    // Test constructor throws
-//    const Eigen::Matrix<TypeParam, 2, 2> A { {TypeParam(-1.), TypeParam(.1)},
-//                                             {TypeParam(.1), TypeParam(-2.)} };
-//    const Eigen::Matrix<TypeParam, 1, 2> B { {TypeParam(.9), TypeParam(0.)} };
-//    const Eigen::Matrix<TypeParam, 1, 2> H { {TypeParam(1.), TypeParam(1.)}};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2v {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    ASSERT_ANY_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, constructorTC)
-//{
-//    // Test constructor throws
-//    const Eigen::Matrix<TypeParam, 2, 2> A { {TypeParam(-1.), TypeParam(.1)},
-//                                             {TypeParam(.1), TypeParam(-2.)} };
-//    const Eigen::Matrix<TypeParam, 2, 2> B { {TypeParam(.9), TypeParam(0.)},
-//                                             {TypeParam(.1), TypeParam(.8)} };
-//    const Eigen::Matrix<TypeParam, 1, 1> H { TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2v {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    ASSERT_ANY_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, constructorTD)
-//{
-//    // Test constructor throws
-//    const Eigen::Matrix<TypeParam, 2, 2> A { {TypeParam(-1.), TypeParam(.1)},
-//                                             {TypeParam(.1), TypeParam(-2.)} };
-//    const Eigen::Matrix<TypeParam, 2, 1> B { {TypeParam(.9)}, {TypeParam(.8)} };
-//    const Eigen::Matrix<TypeParam, 1, 2> H { {TypeParam(1.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2v {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    ASSERT_ANY_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, constructorTE)
-//{
-//    // Test constructor throws
-//    const Eigen::Matrix<TypeParam, 2, 2> A { {TypeParam(-1.), TypeParam(.1)},
-//                                             {TypeParam(.1), TypeParam(-2.)} };
-//    const Eigen::Matrix<TypeParam, 2, 1> B { {TypeParam(.9)}, {TypeParam(.8)} };
-//    const Eigen::Matrix<TypeParam, 1, 2> H { {TypeParam(1.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 2, 2> sigma2v {{TypeParam(1.), TypeParam(0.)},
-//                                                  {TypeParam(0.), TypeParam(1.)} };
-//    const Eigen::Matrix<TypeParam, 2, 2> sigma2w {{TypeParam(1.), TypeParam(0.)},
-//                                                  {TypeParam(0.), TypeParam(1.)} };
-//
-//    ASSERT_ANY_THROW(kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w));
-//}
-//
-//TYPED_TEST(KalmanFilterTests, getMeasurement)
-//{
-//    // Test constructor for 1D system, 1D input
-//    const Eigen::Matrix<TypeParam, 1, 1> A {TypeParam(-1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> B {TypeParam(.9)};
-//    const Eigen::Matrix<TypeParam, 1, 1> H {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2v {TypeParam(1.)};
-//    const Eigen::Matrix<TypeParam, 1, 1> sigma2w {TypeParam(1.)};
-//
-//    auto kf = kalman::KF<TypeParam>(A, B, H, sigma2v, sigma2w);
-//    auto z = kf.getLatestMeasurement();
-//}
+    Filter kf(this->A_, this->B_, this->H_);
+    kf.initializeKF(x0, P0, sigma2v, sigma2w);
+
+    ASSERT_TRUE(x0.isApprox(kf.getLatestState()));
+    ASSERT_TRUE(P0.isApprox(kf.getCovariance()));
+}
