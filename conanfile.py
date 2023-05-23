@@ -25,7 +25,7 @@ class Kalman(ConanFile):
 
     def build_requirements(self):
         if self.options.build_tests:
-            self.build_requires("gtest/cci.20210126")
+            self.build_requires("gtest/1.13.0")
 
     def build(self):
         cmake = CMake(self)

@@ -1,8 +1,7 @@
-add_library(kalman
-            kalman_filter.cpp)
+add_library(kalman INTERFACE)
 
-target_include_directories(kalman PUBLIC include)
-target_link_libraries(kalman CONAN_PKG::eigen)
+target_include_directories(kalman INTERFACE include)
+target_link_libraries(kalman INTERFACE CONAN_PKG::eigen)
 
 install(DIRECTORY include/kalman DESTINATION include)
 install(TARGETS kalman ${DEFAULT_DESTINATIONS})

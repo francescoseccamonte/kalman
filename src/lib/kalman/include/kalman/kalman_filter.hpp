@@ -24,34 +24,83 @@ namespace kalman
      *
      * The template parameter is the floating
      * point type (float or double).
+     * The non template parameters are state,
+     * input and measurement vectors sizes, respectively.
      */
-     template<typename T>
-     class KF
-     {
-         using Matrix = typename Eigen::Matrix<T, -1, -1>;
-         using Vector = typename Eigen::Matrix<T, -1, -1>;
+    template<typename T, int n, int m, int h>
+    class KF
+    {
+        // convenience aliases
+        using Matrix    = typename Eigen::Matrix<T, -1, -1>;
+        using Matrixnn  = typename Eigen::Matrix<T, n, n>;
+        using Matrixnm  = typename Eigen::Matrix<T, n, m>;
+        using Matrixhn  = typename Eigen::Matrix<T, h, n>;
+        using Matrixnh  = typename Eigen::Matrix<T, n, h>;
+        using Matrixhh  = typename Eigen::Matrix<T, h, h>;
+        using Vector    = typename Eigen::Matrix<T, -1, 1>;
+        using Vectorn   = typename Eigen::Matrix<T, n, 1>;
+        using Vectorm   = typename Eigen::Matrix<T, m, 1>;
+        using Vectorh   = typename Eigen::Matrix<T, h, 1>;
 
      public:
+         /* Class constructor.
+          *
+          */
          KF(const Matrix& A, const Matrix& B, const Matrix& H);
+
+         /* Initialize Kalman Filter with
+          * process, measurement covariance matrices,
+          * and initial state.
+          */
+        void initializeKF(const Vector& x0, const KF::Matrix& P0, const Matrix& sigma2v, const Matrix& sigma2w);
+
+        /* Prior update computation.
+         *
+         */
+        void priorUpdate(const Vectorm& u);
+
+        /* Measurement update computation.
+         *
+         */
+        void measurementUpdate(const Vectorh& z);
+
+         /* State getter.
+          *
+          */
+         Vectorn getLatestState() const;
+
+         /* Covariance getter.
+          *
+          */
+         Matrixnn getCovariance() const;
 
      private:
 
-         // System parameters
-         const long n_;      // state dimension
-         const long m_;      // input dimension
-         const long h_;      // output dimension
-         const Matrix A_;   // State matrix (n_ \times n_)
-         const Matrix B_;   // Input matrix (n_ \times m_)
-         const Matrix H_;   // Observation matrix (h_ \times n_)
+         /* Custom error function
+          * (not really useful in this context),
+          * allows user to make class
+          * exception-safe or not.
+          */
+         void error() const;
 
-         // Process variables
-         Vector x_;         // state vector    (n_)
-         Vector z_;         // observation vector  (h_)
-         Matrix Q_;         // process noise variance (n_ \times n_)
-         Matrix R_;         // measurement noise variance (h_ \times h_)
-         bool initialized_; // whether the initialization has been provided
+        // System parameters
+        const Matrixnn A_;      // State matrix (n_ \times n_)
+        const Matrixnm B_;      // Input matrix (n_ \times m_)
+        const Matrixhn H_;      // Observation matrix (h_ \times n_)
+        Matrixnn P_;            // state variance (n_ \times n_)
+        Matrixnn Q_;            // process noise variance (n_ \times n_)
+        Matrixhh R_;            // measurement noise variance (h_ \times h_)
+
+        // Process variables
+        Vectorn x_;         // state vector    (n_)
+        bool initialized_; // whether the initialization has been provided
+
+        // Identity of size n \times n conveniently defined
+        const Matrixnn Inn = Eigen::Matrix<T, n, n>::Identity();
      };
 
 }   // namespace kalman
+
+#include "kalman_filter.tpp"
 
 #endif // KALMAN_FILTER_HPP
