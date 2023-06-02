@@ -92,8 +92,8 @@ namespace kalman
         Matrixhh R_;            // measurement noise variance (h_ \times h_)
 
         // Process variables
-        Vectorn x_;         // state vector    (n_)
-        bool initialized_; // whether the initialization has been provided
+        Vectorn x_;             // state vector    (n_)
+        bool initialized_;      // whether the initialization has been provided
 
         // Identity of size n \times n conveniently defined
         const Matrixnn Inn = Eigen::Matrix<T, n, n>::Identity();

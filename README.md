@@ -6,7 +6,7 @@ Kalman filter written in C++ using Eigen.
 The library is header-only, and uses fixed-size Eigen matrices for performance.
 
 Disclaimer: I wrote this project to simply brush up my C++ skills, and review the Kalman filter.
-This means the code is not particularly optimized, and some design choices are suboptimal.
+This means the code is not particularly optimized, and some design choices are not optimal.
 
 ## Prerequisites
 
@@ -90,3 +90,9 @@ sudo apt install doxygen graphviz
 
 Then, pass the `ENABLE_DOXYGEN=ON` option to the cmake configure step. You can then build the target `doc` to generate documentation.
 Documentation will be in the `doc` folder inside your build directory. Open `doc/index.html` in your browser to view the documentation.
+
+### TODOs
+- Add more tests
+- Add examples
+- Fix code coverage
+- Upgrade to Conan 2

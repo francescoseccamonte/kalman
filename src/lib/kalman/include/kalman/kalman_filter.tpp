@@ -19,7 +19,6 @@ namespace kalman
     {
         if (A_.rows() != A_.cols() || A_.rows() != B_.rows() || A_.cols() != H_.cols() ||
             A_.rows() != n || B_.cols() != m || H_.rows() != h) {
-            std::cout << "Throwing" << std::endl;
             throw std::invalid_argument("Wrong input sizes");
         }
         P_.setIdentity();

@@ -51,10 +51,14 @@ TYPED_TEST(KFTest, Constructor) {
 // Test case for initializing matrices in the KF object
 TYPED_TEST(KFTest, Initialization) {
     Eigen::Matrix<TypeParam, KFTestParams::n, 1> x0;
+    Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n> P0;
+    Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n> sigma2v;
+    Eigen::Matrix<TypeParam, KFTestParams::h, KFTestParams::h> sigma2w;
+
     x0.setZero();
-    Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n> P0 = Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n>::Identity();
-    Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n> sigma2v = Eigen::Matrix<TypeParam, KFTestParams::n, KFTestParams::n>::Identity();
-    Eigen::Matrix<TypeParam, KFTestParams::h, KFTestParams::h> sigma2w = Eigen::Matrix<TypeParam, KFTestParams::h, KFTestParams::h>::Identity();
+    P0.setIdentity();
+    sigma2v.setIdentity();
+    sigma2w.setIdentity();
 
     using Filter = KF<TypeParam, KFTestParams::n, KFTestParams::m, KFTestParams::h>;
 

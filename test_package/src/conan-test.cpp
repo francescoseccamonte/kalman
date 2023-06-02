@@ -17,9 +17,9 @@ int main()
 
     kalman::KF<double, n, m, h> kfd(Ad, Bd, Hd);
 
-    const Eigen::Matrix<float, n, n> Af {double(-1.)};
-    const Eigen::Matrix<float, n, m> Bf {double(.9)};
-    const Eigen::Matrix<float, h, n> Hf {double(1.)};
+    const Eigen::Matrix<float, n, n> Af {float(-1.)};
+    const Eigen::Matrix<float, n, m> Bf {float(.9)};
+    const Eigen::Matrix<float, h, n> Hf {float(1.)};
 
     kalman::KF<float, n, m, h> kff(Af, Bf, Hf);
 
